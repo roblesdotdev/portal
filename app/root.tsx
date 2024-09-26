@@ -1,4 +1,4 @@
-import { type LinksFunction } from '@remix-run/node'
+import { type LinksFunction, type MetaFunction } from '@remix-run/node'
 import {
   Links,
   Meta,
@@ -6,8 +6,14 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import '~/styles/global.css'
 
-import './tailwind.css'
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Remix Portal' },
+    { name: 'description', content: 'Welcome to Remix Portal!' },
+  ]
+}
 
 export const links: LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
