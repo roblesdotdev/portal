@@ -1,5 +1,10 @@
-import { type LinksFunction, type MetaFunction } from '@remix-run/node'
 import {
+  type LoaderFunctionArgs,
+  type LinksFunction,
+  type MetaFunction,
+} from '@remix-run/node'
+import {
+  json,
   Links,
   Meta,
   Outlet,
@@ -7,13 +12,25 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import '~/styles/global.css'
+import { getDomainUrl, getUrl } from './utils/misc'
+import { getMetaTags } from './utils/seo'
 import iconAssetUrl from '~/assets/favicon.svg'
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'Remix Portal' },
-    { name: 'description', content: 'Welcome to Remix Portal!' },
-  ]
+export async function loader({ request }: LoaderFunctionArgs) {
+  const data = {
+    requestInfo: {
+      origin: getDomainUrl(request),
+      path: new URL(request.url).pathname,
+    },
+  }
+
+  return json(data)
+}
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const requestInfo = data?.requestInfo
+
+  return [...getMetaTags({ url: getUrl(requestInfo) })]
 }
 
 export const links: LinksFunction = () => [
