@@ -11,6 +11,19 @@ export default {
       },
     },
     extend: {
+      colors: {
+        canvas: 'hsl(var(--canvas))',
+        panel: 'hsl(var(--panel))',
+        fg: {
+          DEFAULT: 'hsl(var(--fg-default))',
+          muted: 'hsl(var(--fg-muted))',
+          primary: 'hsl(var(--fg-primary))',
+          error: 'hsl(var(--fg-error))',
+        },
+        border: 'hsl(var(--border))',
+        primary: 'hsl(var(--primary))',
+        'on-primary': 'hsl(var(--on-primary))',
+      },
       fontFamily: {
         sans: [
           '"Inter"',

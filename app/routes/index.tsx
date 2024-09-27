@@ -7,7 +7,7 @@ export default function Index() {
         <h1 className="mx-auto max-w-screen-sm text-3xl sm:text-5xl">
           Manage Your Services Efficiently
         </h1>
-        <p className="sm:text-lg">
+        <p className="text-fg-muted sm:text-lg">
           An intuitive platform to manage, organize, and optimize your
           community's services. Centralize information and keep everything under
           control with just a few clicks.
@@ -15,7 +15,7 @@ export default function Index() {
         <div className="mt-4">
           <Link
             to="/dashboard"
-            className="inline-flex h-10 items-center rounded-none bg-white px-4 text-black"
+            className="inline-flex h-10 items-center rounded-none bg-primary px-4 font-medium text-black text-on-primary"
           >
             Get Started
           </Link>
