@@ -12,6 +12,7 @@ import {
   ScrollRestoration,
 } from '@remix-run/react'
 import '~/styles/global.css'
+import { GlobalLoading } from './components/global-loading'
 import { getDomainUrl, getUrl } from './utils/misc'
 import { getMetaTags } from './utils/seo'
 import iconAssetUrl from '~/assets/favicon.svg'
@@ -62,6 +63,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <GlobalLoading />
         <ScrollRestoration />
         <Scripts />
       </body>
