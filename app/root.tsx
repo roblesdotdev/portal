@@ -10,15 +10,19 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react'
 import '~/styles/global.css'
 import { GlobalLoading } from './components/global-loading'
+import { getPublicEnv } from './utils/env.server'
 import { getDomainUrl, getUrl } from './utils/misc'
+import { useNonce } from './utils/nonce-provider'
 import { getMetaTags } from './utils/seo'
 import iconAssetUrl from '~/assets/favicon.svg'
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const data = {
+    ENV: getPublicEnv(),
     requestInfo: {
       origin: getDomainUrl(request),
       path: new URL(request.url).pathname,
@@ -52,7 +56,15 @@ export const links: LinksFunction = () => [
   },
 ]
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Document({
+  children,
+  nonce,
+  env,
+}: {
+  children: React.ReactNode
+  nonce: string
+  env?: Record<string, string>
+}) {
   return (
     <html lang="en">
       <head>
@@ -63,6 +75,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(env)}`,
+          }}
+        />
         <GlobalLoading />
         <ScrollRestoration />
         <Scripts />
@@ -72,5 +90,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />
+  const data = useLoaderData<typeof loader>()
+  const nonce = useNonce()
+
+  return (
+    <Document nonce={nonce} env={data.ENV}>
+      <Outlet />
+    </Document>
+  )
 }
